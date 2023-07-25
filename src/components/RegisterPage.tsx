@@ -1,6 +1,7 @@
 // components/RegisterPage.tsx
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router';
+import { AuthService } from '../services/AuthService';
 
 const RegisterPage: React.FC = () => {
     const [email, setEmail] = useState('');
@@ -11,13 +12,21 @@ const RegisterPage: React.FC = () => {
 
     const handleRegister = () => {
         // Implement your registration logic here
-        if (password !== confirmPassword) {
+        if (!email || !password || !confirmPassword) {
+            setMessage('Please fill all the fields.');
+        }
+        else if (password !== confirmPassword) {
             setMessage('Passwords do not match.');
         } else {
-            setMessage('Registration successful!'); // Simulate successful registration
-            setTimeout(() => {
-                navigate('/login');
-            }, 1000);
+            const isRegistered: boolean = AuthService.register(email, password, 'Client');
+            if (isRegistered) {
+                setMessage('Registration successful!');
+                setTimeout(() => {
+                    navigate('/login');
+                }, 1000);
+            } else {
+                setMessage('User already exists. Please choose a different email.');
+            }
         }
     };
 

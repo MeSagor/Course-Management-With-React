@@ -2,6 +2,7 @@
 import React from 'react';
 import { CourseService } from '../services/CourseService';
 import { Course } from '../models/Course';
+import NavBar from './Navbar';
 
 const HomePage: React.FC = () => {
   const courses: Course[] = CourseService.getAllCourses();
@@ -9,6 +10,7 @@ const HomePage: React.FC = () => {
   return (
     <div>
       <h1>Home Page</h1>
+      <NavBar/>
       <h2>List of Courses</h2>
       <div>
         {courses.map((course) => (

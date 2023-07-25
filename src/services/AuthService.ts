@@ -12,6 +12,25 @@ export const AuthService = {
     const user = users.find((u) => u.email === email && u.password === password);
     return user;
   },
+
+  register: (email: string, password: string, role: 'Admin' | 'Client'): boolean => {
+    // Check if the user already exists
+    if (users.some((user) => user.email === email)) {
+      return false; // User already exists
+    }
+
+    // Add the new user to the list
+    const newUser: User = {
+      id: String(users.length + 1),
+      email,
+      password,
+      role,
+    };
+    users.push(newUser);
+
+    return true; // Registration successful
+  },
+
   forgotPassword: (email: string): boolean => {
     // Logic to handle password reset
     return true;
